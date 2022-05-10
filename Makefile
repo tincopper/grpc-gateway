@@ -85,7 +85,8 @@ install:
 	go install github.com/bufbuild/buf/cmd/buf@v1.3.1
 	go install \
 		./protoc-gen-openapiv2 \
-		./protoc-gen-grpc-gateway
+		./protoc-gen-grpc-gateway \
+		./protoc-gen-dubbo-gateway \
 
 proto:
 	# These generation steps are run in order so that later steps can
