@@ -18,10 +18,12 @@ dubbo-gateway-install:
 	go install ../../protoc-gen-dubbo-gateway
 
 go-gen:
-	protoc -I ./googleapis/ -I ./ helloworld.proto --go_out .
+	protoc -I ./googleapis/ -I ./ *.proto --go_out .
 
 triple-gen:
-	protoc -I ./googleapis/ -I ./ helloworld.proto --go-triple_out .
+	protoc -I ./googleapis/ -I ./ *.proto --go-triple_out .
 
 dubbo-gw-gen:
-	protoc -I ./googleapis/ -I ./ helloworld.proto --dubbo-gateway_out .
+	protoc -I ./googleapis/ -I ./ *.proto --dubbo-gateway_out .
+
+build: go-gen triple-gen dubbo-gw-gen

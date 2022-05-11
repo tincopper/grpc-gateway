@@ -34,7 +34,7 @@ func New(reg *descriptor.Registry, useRequestContext bool, registerFuncSuffix st
 		"context",
 		"io",
 		"net/http",
-		"dubbo.apache.org/dubbo-go/v3/config",
+		"github.com/grpc-ecosystem/grpc-gateway/v2/extend",
 		"github.com/grpc-ecosystem/grpc-gateway/v2/runtime",
 		"github.com/grpc-ecosystem/grpc-gateway/v2/utilities",
 		"google.golang.org/protobuf/proto",
@@ -60,12 +60,6 @@ func New(reg *descriptor.Registry, useRequestContext bool, registerFuncSuffix st
 		}
 		imports = append(imports, pkg)
 	}
-
-	pkg := descriptor.GoPackage{
-		Path:  "dubbo.apache.org/dubbo-go/v3/imports",
-		Alias: "_",
-	}
-	imports = append(imports, pkg)
 
 	return &generator{
 		reg:                reg,

@@ -2,9 +2,9 @@ package main
 
 import (
 	"context"
-	"dubbo.apache.org/dubbo-go/v3/config"
 	"flag"
 	"github.com/golang/glog"
+	"github.com/grpc-ecosystem/grpc-gateway/v2/extend"
 	"github.com/grpc-ecosystem/grpc-gateway/v2/protoc-gen-dubbo-gateway/examples"
 	gwruntime "github.com/grpc-ecosystem/grpc-gateway/v2/runtime"
 	"net/http"
@@ -17,12 +17,23 @@ func main() {
 	ctx := context.Background()
 	gw := gwruntime.NewServeMux()
 
-	refConf := config.ReferenceConfig{
+	gatewayConfig := extend.NewDubboGatewayConfig(&extend.DubboGatewayOps{
+		IsDirect: true,
 		Protocol: "tri",
-		URL:      "tri://127.0.0.1:20000",
+	})
+	gatewayConfig.AddReferenceEndpoint("api", "tri://127.0.0.1:20000")
+
+	err := api.RegisterGreeterHandler(ctx, gw, gatewayConfig)
+	if err != nil {
+		panic(err)
 	}
 
-	err := api.RegisterGreeterHandler(ctx, gw, refConf)
+	err = api.RegisterGreeter2Handler(ctx, gw, gatewayConfig)
+	if err != nil {
+		panic(err)
+	}
+
+	err = gatewayConfig.Load()
 	if err != nil {
 		panic(err)
 	}
