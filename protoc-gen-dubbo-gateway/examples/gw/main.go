@@ -18,10 +18,11 @@ func main() {
 	gw := gwruntime.NewServeMux()
 
 	gatewayConfig := extend.NewDubboGatewayConfig(&extend.DubboGatewayOps{
-		IsDirect: true,
+		IsDirect: false,
 		Protocol: "tri",
 	})
 	gatewayConfig.AddReferenceEndpoint("api", "tri://127.0.0.1:20000")
+	gatewayConfig.AddRegistry("zookeeper", "127.0.0.1:2181", "127.0.0.1:2182")
 
 	err := api.RegisterGreeterHandler(ctx, gw, gatewayConfig)
 	if err != nil {
