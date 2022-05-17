@@ -225,7 +225,7 @@ var (
 {{if not .OmitPackageDoc}}/*
 Package {{.GoPkg.Name}} is a reverse proxy.
 
-It translates gRPC into RESTful JSON APIs.
+It translates Dubbo into RESTful JSON APIs.
 */{{end}}
 package {{.GoPkg.Name}}
 import (
