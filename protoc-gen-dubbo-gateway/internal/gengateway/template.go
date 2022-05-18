@@ -669,7 +669,14 @@ func Register{{$svc.GetName}}{{$.RegisterFuncSuffix}}(ctx context.Context, mux *
 func Register{{$svc.GetName}}{{$.RegisterFuncSuffix}}Client(ctx context.Context, mux *runtime.ServeMux, gwconfig *extend.DubboGatewayConfig) error {
 	client := new({{$svc.GetName}}ClientImpl)
 	gwconfig.SetConsumerService(client)
-	gwconfig.AddReference("{{$svc.File.GoPkg.Name}}", "{{$svc.GetName}}ClientImpl")
+	
+	{{ if $svc.File.JavaPkg.Name }}
+	gwconfig.AddReference("{{$svc.File.GoPkg.Name}}", "{{$svc.GetName}}ClientImpl", "{{$svc.File.JavaPkg.Name}}.{{$svc.GetName}}")
+	{{ else }}
+	// gwconfig.AddReference("{{$svc.File.GoPkg.Name}}", "{{$svc.GetName}}ClientImpl", "{{$svc.File.GetPackage}}.{{$svc.GetName}}")
+	// if interfance name is nil will use default -> referenceConfig.InterfaceName = triplePBService.XXX_InterfaceName()
+	gwconfig.AddReference("{{$svc.File.GoPkg.Name}}", "{{$svc.GetName}}ClientImpl", "")
+	{{ end }}
 
 	{{range $m := $svc.Methods}}
 	{{range $b := $m.Bindings}}

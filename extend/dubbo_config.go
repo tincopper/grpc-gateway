@@ -98,18 +98,20 @@ func (gwConfig *DubboGatewayConfig) AddReferenceEndpoint(appName string, endpoin
 	appNameEndpointMap[appName] = endpoint
 }
 
-func (gwConfig *DubboGatewayConfig) AddReference(appName, referenceKey string) error {
+func (gwConfig *DubboGatewayConfig) AddReference(appName, referenceKey, interfaceName string) error {
 	if gwConfig.isDirect {
 		endpoint := appNameEndpointMap[appName]
 		refConf := config.ReferenceConfig{
-			Protocol: gwConfig.protocol,
-			URL:      endpoint,
+			Protocol:      gwConfig.protocol,
+			URL:           endpoint,
+			InterfaceName: interfaceName,
 		}
 		gwConfig.consumerConfigBuilder.AddReference(referenceKey, &refConf)
 	} else {
 		gwConfig.consumerConfigBuilder.
 			AddReference(referenceKey, config.NewReferenceConfigBuilder().
 				SetProtocol(gwConfig.protocol).
+				SetInterface(interfaceName).
 				Build())
 	}
 	return nil
