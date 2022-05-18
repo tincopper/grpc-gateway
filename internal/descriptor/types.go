@@ -26,6 +26,12 @@ type GoPackage struct {
 	Alias string
 }
 
+// JavaPackage represents a golang package.
+type JavaPackage struct {
+	// Name is the package name of the package
+	Name string
+}
+
 // Standard returns whether the import is a golang standard package.
 func (p GoPackage) Standard() bool {
 	return !strings.Contains(p.Path, ".")
@@ -51,6 +57,8 @@ type File struct {
 	*descriptorpb.FileDescriptorProto
 	// GoPkg is the go package of the go file generated from this file.
 	GoPkg GoPackage
+	// JavaPkg
+	JavaPkg JavaPackage
 	// GeneratedFilenamePrefix is used to construct filenames for generated
 	// files associated with this source file.
 	//

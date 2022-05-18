@@ -211,6 +211,11 @@ func (r *Registry) loadFile(filePath string, file *protogen.File) {
 		Path: string(file.GoImportPath),
 		Name: string(file.GoPackageName),
 	}
+
+	javaPkg := JavaPackage{
+		Name: file.Proto.Options.GetJavaPackage(),
+	}
+
 	if r.standalone {
 		pkg.Alias = "ext" + cases.Title(language.AmericanEnglish).String(pkg.Name)
 	}
@@ -227,6 +232,7 @@ func (r *Registry) loadFile(filePath string, file *protogen.File) {
 	f := &File{
 		FileDescriptorProto:     file.Proto,
 		GoPkg:                   pkg,
+		JavaPkg:                 javaPkg,
 		GeneratedFilenamePrefix: file.GeneratedFilenamePrefix,
 	}
 
